@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2 vuejs</title>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="./main.js" type="module" defer></script>
+
+    <style type="text/css">
+        .large {
+            height: 10rem;
+            width: 10rem;
+        }
+        .small {
+            height: 2rem;
+            width: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <pagination @go-to-page="(page) => goToPage(page)"></pagination>
+
+        <div v-for="(person, i) in people" :key="person.name">
+            <person :person="person" :index="i"></person>
+        </div>
+
+        <p>Corpulence et IMC moyen: {{ imcInterpretation(avgIMC) }} ({{ avgIMC }})</p>
+
+        <pagination @go-to-page="(page) => goToPage(page)"></pagination>
+    </div>
+</body>
+</html>
