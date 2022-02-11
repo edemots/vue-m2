@@ -3,6 +3,7 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from "vue-router";
+import { useUserStore } from "../stores/user";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -42,12 +43,14 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const user = null;
+  const userStore = useUserStore();
 
   // User pas connecté et route nécessite auth => /login
-  if (to.meta?.auth && !user) next({ name: "login" });
+  if (to.meta?.auth && !userStore.isAuthenticated) next({ name: "login" });
   // User connecté mais route ne nécessite pas auth => /
-  else if (!to.meta?.auth && user) next({ name: homepage });
+  else if (!to.meta?.auth && userStore.isAuthenticated)
+    next({ name: homepage });
+  // Connecté et route nécessite auth
   else next();
 });
 
