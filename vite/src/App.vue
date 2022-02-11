@@ -22,6 +22,8 @@ export default {
       @delete:task="deleteTask($event)"
       @update:task-name="updateTaskName($event)"
     ></Todos>
+
+    <RouterView></RouterView>
   </div>
 </template>
 
