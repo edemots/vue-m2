@@ -1,36 +1,21 @@
 <script>
+import { toRef } from "vue";
+import { useEditableTaskname } from "../composition/useEditableTaskname";
+
 export default {
   props: {
     todo: Object,
   },
-  data() {
-    return {
-      isEditing: false,
-      taskName: "",
-    };
-  },
-  mounted() {
-    this.taskName = this.todo.name;
-  },
   emits: ["update:toggle-complete", "delete:task", "update:task-name"],
-  watch: {
-    taskName(newValue, oldValue) {
-      if (oldValue !== "") {
-        this.updateTaskName();
-      }
-    },
-  },
-  methods: {
-    toggleEditingMode() {
-      this.isEditing = !this.isEditing;
-    },
-    updateTaskName() {
-      this.$emit("update:task-name", {
-        id: this.todo.id,
-        name: this.taskName,
-      });
-      this.toggleEditingMode();
-    },
+  setup(props, { emit }) {
+    // const todo = ref(props.todo);
+    // const { todo } = toRefs(props);
+    const todo = toRef(props, "todo");
+
+    return {
+      todo,
+      ...useEditableTaskname(todo, emit),
+    };
   },
 };
 </script>
